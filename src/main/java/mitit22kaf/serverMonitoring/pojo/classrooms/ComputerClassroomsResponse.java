@@ -1,4 +1,4 @@
-package mitit22kaf.serverMonitoring.pojo;
+package mitit22kaf.serverMonitoring.pojo.classrooms;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComputerClassroomResponse {
+public class ComputerClassroomsResponse {
 
     private byte number;
     private boolean isLoaded;

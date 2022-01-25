@@ -19,7 +19,6 @@ public class ComputerRestController {
     @GetMapping("/classroom/{classroomId}/pc/{pcId}")
     public ResponseEntity<?> getComputer(@PathVariable short classroomId,
                                          @PathVariable byte pcId) {
-
         try {
             ComputerResponse computerResponse = computerService.getComputerResponse(classroomId, pcId);
             return ResponseEntity.ok(computerResponse);

@@ -1,4 +1,4 @@
-package mitit22kaf.serverMonitoring.pojo;
+package mitit22kaf.serverMonitoring.pojo.classrooms;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +14,6 @@ public class ClassroomsResponse {
 
     private short number;
     private float speed;
-    private List<ComputerClassroomResponse> computers = new ArrayList<>();
+    private List<ComputerClassroomsResponse> computers = new ArrayList<>();
 
 }
