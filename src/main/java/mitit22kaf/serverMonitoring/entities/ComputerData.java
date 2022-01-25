@@ -17,7 +17,7 @@ public class ComputerData {
     @Id
     private String ipv4;
     private String macAddress;
-    private byte numberPC;
+    private byte numberPс;
     private short numberClassroom;
 
     private String cpuInfo;

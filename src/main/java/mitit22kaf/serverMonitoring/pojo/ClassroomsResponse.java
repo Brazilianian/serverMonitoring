@@ -14,6 +14,6 @@ public class ClassroomsResponse {
 
     private short number;
     private float speed;
-    private List<ComputerResponse> computers = new ArrayList<>();
+    private List<ComputerClassroomResponse> computers = new ArrayList<>();
 
 }

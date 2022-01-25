@@ -17,7 +17,6 @@ public class ComputerVariableData  {
         cpuLoad = 0;
         ipv4  = "";
         networkLoad = 0f;
-        networkLoad = 0f;
         ramLoad = 0;
     }
 

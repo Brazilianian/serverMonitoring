@@ -10,4 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface ComputerDataRepo extends JpaRepository<ComputerData,String> {
+    boolean existsByNumberClassroomAndNumberPс(short numberClassroom, byte numberPс);
+
+    ComputerData findByNumberClassroomAndNumberPс(short numberClassroom, byte numberPс);
 }
