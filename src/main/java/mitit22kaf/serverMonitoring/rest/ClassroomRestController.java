@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityExistsException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/classroom")
@@ -36,6 +37,18 @@ public class ClassroomRestController {
         try {
             ClassroomResponse classroomResponse = computerService.getClassroomResponse(id);
             return ResponseEntity.ok(classroomResponse);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("Fatal error"));
+        }
+    }
+
+    @GetMapping("/{classroomId}/variable")
+    public ResponseEntity<?> getVariableDataClassroom(@PathVariable short classroomId) {
+        try {
+            List<VariableComputerResponse> variableComputerResponseList = computerService.getVariableComputerResponse(classroomId);
+            return ResponseEntity.ok(variableComputerResponseList);
         } catch (EntityExistsException e) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {

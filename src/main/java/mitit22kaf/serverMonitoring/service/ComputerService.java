@@ -11,6 +11,7 @@ import mitit22kaf.serverMonitoring.pojo.components.Network;
 import mitit22kaf.serverMonitoring.pojo.components.Ram;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
 import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
+import mitit22kaf.serverMonitoring.rest.VariableComputerResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -97,5 +98,32 @@ public class ComputerService {
             }
         }
         return classroomResponse;
+    }
+
+    public List<VariableComputerResponse> getVariableComputerResponse(short classroomId) {
+
+        List<VariableComputerResponse> variableComputerResponseList = new ArrayList<>();
+
+        List<ComputerData> computerDataList = computerDataRepo.findByNumberClassroom(classroomId);
+
+        for (ComputerData computerData :
+             computerDataList) {
+            ComputerVariableData computerVariableData = computerVariableDataRepo.findByIpv4(computerData.getIpv4());
+
+            VariableComputerResponse variableComputerResponse = new VariableComputerResponse();
+
+            variableComputerResponse.setPcNumber(computerData.getNumberPс());
+            variableComputerResponse.setClassroomNumber(classroomId);
+
+            variableComputerResponse.setCpu(new Cpu(computerData.getCpuInfo(), computerVariableData.getCpuLoad()));
+            variableComputerResponse.setNetwork(new Network(computerVariableData.getNetworkLoad(), computerVariableData.getNetworkUpLoad()));
+            variableComputerResponse.setRam(new Ram(computerData.getRamInfo(), computerVariableData.getRamLoad()));
+
+            variableComputerResponse.setLoaded(computerData.isLoaded());
+
+            variableComputerResponseList.add(variableComputerResponse);
+        }
+
+        return variableComputerResponseList;
     }
 }
