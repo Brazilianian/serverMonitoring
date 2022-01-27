@@ -10,10 +10,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClassroomsResponse {
+public class MainPageClassroomResponse {
 
     private short number;
     private float speed;
-    private List<ComputerClassroomsResponse> computers = new ArrayList<>();
+    private List<MainPageComputerResponse> computers = new ArrayList<>();
 
 }

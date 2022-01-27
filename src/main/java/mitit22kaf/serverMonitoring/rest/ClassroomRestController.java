@@ -25,7 +25,7 @@ public class ClassroomRestController {
     @GetMapping
     public ResponseEntity<?> getAll() {
         try {
-            return ResponseEntity.ok(computerService.getClassroomsResponse());
+            return ResponseEntity.ok(computerService.getMainPageClassroomResponse());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ErrorResponse("Fatal error"));
         }

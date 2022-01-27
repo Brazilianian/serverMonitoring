@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ClassroomResponse {
     private short classroomNumber;
-    private List<ComputerClassroomResponse> computerClassroomResponse = new ArrayList<>();
+    private List<ComputerResponse> computerClassroomResponse = new ArrayList<>();
 }

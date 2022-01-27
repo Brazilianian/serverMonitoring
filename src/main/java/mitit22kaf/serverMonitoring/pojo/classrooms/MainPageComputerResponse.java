@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComputerClassroomsResponse {
+public class MainPageComputerResponse {
 
     private byte number;
     private boolean isLoaded;
