@@ -14,6 +14,7 @@ import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
 import mitit22kaf.serverMonitoring.pojo.classrooms.VariableComputerResponse;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -35,8 +36,8 @@ public class ComputerService {
 
         Map<Short, List<ComputerData>> computerDataByClassrooms = computerDataRepo.findAll()
                 .stream()
-                .sorted(Comparator.comparing(ComputerData :: getNumberClassroom))
-                .sorted(Comparator.comparing(ComputerData ::getNumberPс))
+                .sorted(Comparator.comparing(ComputerData::getNumberClassroom))
+                .sorted(Comparator.comparing(ComputerData::getNumberPс))
                 .collect(Collectors.groupingBy(ComputerData::getNumberClassroom));
 
         List<MainPageClassroomResponse> mainPageClassroomResponseList = new ArrayList<>();
@@ -68,12 +69,12 @@ public class ComputerService {
 
             List<ComputerData> computerDataList =
                     computerDataRepo.findByNumberClassroom(classroomNumber)
-                    .stream()
+                            .stream()
                             .sorted(Comparator.comparing(ComputerData::getNumberPс))
                             .collect(Collectors.toList());
 
             for (ComputerData computerData :
-                 computerDataList) {
+                    computerDataList) {
                 ComputerVariableData computerVariableData = computerVariableDataRepo.findByIpv4(computerData.getIpv4());
 
                 ComputerResponse computerResponse = new ComputerResponse();
@@ -109,7 +110,7 @@ public class ComputerService {
         List<ComputerData> computerDataList = computerDataRepo.findByNumberClassroom(classroomId);
 
         for (ComputerData computerData :
-             computerDataList) {
+                computerDataList) {
             ComputerVariableData computerVariableData = computerVariableDataRepo.findByIpv4(computerData.getIpv4());
 
             VariableComputerResponse variableComputerResponse = new VariableComputerResponse();
@@ -129,5 +130,41 @@ public class ComputerService {
                     .sorted(Comparator.comparing(VariableComputerResponse :: getPcNumber))
                     .collect(Collectors.toList());
         return variableComputerResponseList;
+    }
+
+    public void editClassroomNumber(short oldNumber, short newNumber) {
+        if (!computerDataRepo.existsByNumberClassroom(oldNumber)) {
+            throw new EntityExistsException("There is no one classroom with number " + oldNumber);
+        }
+        
+        List<ComputerData> computerDataList = computerDataRepo.findByNumberClassroom(oldNumber);
+
+        for (ComputerData computerData :
+                computerDataList) {
+            computerData.setNumberClassroom(newNumber);
+            computerDataRepo.save(computerData);
+        }
+    }
+
+    public void editPcNumber(short classroomNumber, byte oldPcNumber, byte newPcNumber) {
+        if (!computerDataRepo.existsByNumberClassroom(classroomNumber)) {
+            throw new EntityExistsException("There is no one classroom with number " + classroomNumber);
+        }
+
+        List<ComputerData> computerDataList = computerDataRepo.findByNumberClassroom(classroomNumber);
+
+        boolean presentOldPcNumber = false;
+        for (ComputerData computerData :
+                computerDataList) {
+            if (computerData.getNumberPс() == oldPcNumber) {
+                computerData.setNumberPс(newPcNumber);
+                computerDataRepo.save(computerData);
+                presentOldPcNumber = true;
+            }
+        }
+
+        if (!presentOldPcNumber) {
+            throw new EntityExistsException("There is no one pc with number " + oldPcNumber + " in classroom " + classroomNumber);
+        }
     }
 }
