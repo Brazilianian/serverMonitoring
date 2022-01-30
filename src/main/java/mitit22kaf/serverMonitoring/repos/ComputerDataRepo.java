@@ -19,5 +19,9 @@ public interface ComputerDataRepo extends JpaRepository<ComputerData,String> {
 
     List<ComputerData> findByNumberClassroom(short numberClassroom);
 
+    ComputerData findByIpv4(String ipv4);
+
+
+
 
 }
