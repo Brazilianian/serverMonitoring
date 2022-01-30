@@ -1,4 +1,4 @@
-package mitit22kaf.serverMonitoring.rest;
+package mitit22kaf.serverMonitoring.pojo.classrooms;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

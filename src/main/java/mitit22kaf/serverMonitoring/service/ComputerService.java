@@ -11,7 +11,7 @@ import mitit22kaf.serverMonitoring.pojo.components.Network;
 import mitit22kaf.serverMonitoring.pojo.components.Ram;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
 import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
-import mitit22kaf.serverMonitoring.rest.VariableComputerResponse;
+import mitit22kaf.serverMonitoring.pojo.classrooms.VariableComputerResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -97,6 +97,8 @@ public class ComputerService {
                 classroomResponse.getComputerClassroomResponse().add(computerResponse);
             }
         }
+        classroomResponse.setComputerClassroomResponse(classroomResponse.getComputerClassroomResponse().stream()
+                .sorted(Comparator.comparing(ComputerResponse :: getNumberPc)).collect(Collectors.toList()));
         return classroomResponse;
     }
 
@@ -123,7 +125,9 @@ public class ComputerService {
 
             variableComputerResponseList.add(variableComputerResponse);
         }
-
+            variableComputerResponseList = variableComputerResponseList.stream()
+                    .sorted(Comparator.comparing(VariableComputerResponse :: getPcNumber))
+                    .collect(Collectors.toList());
         return variableComputerResponseList;
     }
 }
