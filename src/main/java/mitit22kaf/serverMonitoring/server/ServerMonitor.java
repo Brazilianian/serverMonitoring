@@ -97,9 +97,11 @@ public class ServerMonitor implements CommandLineRunner {
                 data.setLoaded(true);
 
                 ComputerData computerData = computerDataRepo.findByIpv4(data.getIpv4());
-                data.setNumberClassroom(computerData.getNumberClassroom());
-                data.setNumberPс(computerData.getNumberPс());
 
+                if (computerData != null) {
+                    data.setNumberClassroom(computerData.getNumberClassroom());
+                    data.setNumberPс(computerData.getNumberPс());
+                }
                 computerDataRepo.save(data);
                 System.out.println(data + " SAVED");
 
