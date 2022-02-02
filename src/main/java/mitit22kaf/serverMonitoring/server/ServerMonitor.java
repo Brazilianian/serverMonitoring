@@ -1,10 +1,12 @@
 package mitit22kaf.serverMonitoring.server;
 
 import com.google.gson.Gson;
+import lombok.SneakyThrows;
 import mitit22kaf.serverMonitoring.entities.ComputerData;
 import mitit22kaf.serverMonitoring.entities.ComputerVariableData;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
 import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
+import mitit22kaf.serverMonitoring.service.ComputerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Scope;
@@ -26,9 +28,15 @@ public class ServerMonitor implements CommandLineRunner {
     private final ComputerVariableDataRepo computerVariableDataRepo;
 
     @Autowired
-    public ServerMonitor(ComputerDataRepo computerDataRepo, ComputerVariableDataRepo computerVariableDataRepo) {
+    public ServerMonitor(ComputerDataRepo computerDataRepo, ComputerVariableDataRepo computerVariableDataRepo,
+                         ComputerService computerService) {
         this.computerVariableDataRepo = computerVariableDataRepo;
         this.computerDataRepo = computerDataRepo;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        startServer();
     }
 
     public void startServer() {
@@ -62,11 +70,6 @@ public class ServerMonitor implements CommandLineRunner {
             }
         }
 
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        startServer();
     }
 
     private class ClientHandler implements Runnable {
@@ -135,4 +138,5 @@ public class ServerMonitor implements CommandLineRunner {
             }
         }
     }
+
 }

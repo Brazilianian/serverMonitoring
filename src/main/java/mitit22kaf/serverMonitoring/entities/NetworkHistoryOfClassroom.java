@@ -14,26 +14,15 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class ComputerData {
-
+public class NetworkHistoryOfClassroom {
     @Id
-    private String ipv4;
-    private String macAddress;
-    private byte numberPс;
-    private short numberClassroom;
-
-    private String cpuInfo;
-    private String motherboardInfo;
-    private String ramInfo;
-    private String osInfo;
-
-    @Fetch(value = FetchMode.SUBSELECT)
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> gpuInfo = new ArrayList<>();
+    private short numberOfClassroom;
 
     @Fetch(value = FetchMode.SUBSELECT)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<DiskInfo> disks = new ArrayList<>();
+    private List<AverageNetworkOfClassroom> averageDownload = new ArrayList<>();
 
-    private boolean isLoaded;
+    @Fetch(value = FetchMode.SUBSELECT)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<AverageNetworkOfClassroom> averageUpload = new ArrayList<>();
 }

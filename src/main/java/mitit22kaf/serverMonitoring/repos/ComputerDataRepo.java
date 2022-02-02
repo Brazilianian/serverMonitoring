@@ -21,7 +21,10 @@ public interface ComputerDataRepo extends JpaRepository<ComputerData,String> {
 
     ComputerData findByIpv4(String ipv4);
 
+    @Query(value = "SELECT DISTINCT number_classroom FROM computer_data", nativeQuery = true)
+    List<Short> findAllNumberOfClassrooms();
 
-
+    @Query(value = "SELECT ipv4 from computer_data where number_classroom = ?1", nativeQuery = true)
+    List<String> findAllIpv4ByNumberOfClassroom(Short number);
 
 }

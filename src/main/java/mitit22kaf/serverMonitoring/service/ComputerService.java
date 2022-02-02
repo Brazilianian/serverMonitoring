@@ -1,7 +1,9 @@
 package mitit22kaf.serverMonitoring.service;
 
+import mitit22kaf.serverMonitoring.entities.AverageNetworkOfClassroom;
 import mitit22kaf.serverMonitoring.entities.ComputerData;
 import mitit22kaf.serverMonitoring.entities.ComputerVariableData;
+import mitit22kaf.serverMonitoring.entities.NetworkHistoryOfClassroom;
 import mitit22kaf.serverMonitoring.pojo.classroom.ClassroomResponse;
 import mitit22kaf.serverMonitoring.pojo.classroom.ComputerResponse;
 import mitit22kaf.serverMonitoring.pojo.classrooms.MainPageClassroomResponse;
@@ -12,13 +14,11 @@ import mitit22kaf.serverMonitoring.pojo.components.Ram;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
 import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
 import mitit22kaf.serverMonitoring.pojo.classrooms.VariableComputerResponse;
+import mitit22kaf.serverMonitoring.repos.NetworkHistoryClassroomRepo;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +26,13 @@ public class ComputerService {
 
     private final ComputerDataRepo computerDataRepo;
     private final ComputerVariableDataRepo computerVariableDataRepo;
+    private final NetworkHistoryClassroomRepo nhcr;
 
-    public ComputerService(ComputerDataRepo computerDataRepo, ComputerVariableDataRepo computerVariableDataRepo) {
+    public ComputerService(ComputerDataRepo computerDataRepo, ComputerVariableDataRepo computerVariableDataRepo,
+                           NetworkHistoryClassroomRepo nhcr) {
         this.computerDataRepo = computerDataRepo;
         this.computerVariableDataRepo = computerVariableDataRepo;
+        this.nhcr = nhcr;
     }
 
     public List<MainPageClassroomResponse> getMainPageClassroomResponse() {
@@ -167,4 +170,14 @@ public class ComputerService {
             throw new EntityExistsException("There is no one pc with number " + oldPcNumber + " in classroom " + classroomNumber);
         }
     }
+
+    public List<Short> getNumberOfClassrooms(){
+        return computerDataRepo.findAllNumberOfClassrooms();
+    }
+
+    public List<String> getIpV4OfNumberOfClassroom(Short number){
+        return computerDataRepo.findAllIpv4ByNumberOfClassroom(number);
+    }
+
+
 }
