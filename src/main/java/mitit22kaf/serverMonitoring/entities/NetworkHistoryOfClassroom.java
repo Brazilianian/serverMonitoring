@@ -23,7 +23,8 @@ public class NetworkHistoryOfClassroom {
 
     private float averageUpload;
 
-    public NetworkHistoryOfClassroom(short numberOfClassroom) {
+    public NetworkHistoryOfClassroom(short numberOfClassroom, Date date) {
         this.numberOfClassroom = numberOfClassroom;
+        this.date = date;
     }
 }

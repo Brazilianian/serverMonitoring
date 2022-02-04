@@ -5,8 +5,11 @@ import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
 import mitit22kaf.serverMonitoring.repos.NetworkHistoryClassroomRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ChartService {
@@ -26,10 +29,6 @@ public class ChartService {
         List<NetworkHistoryOfClassroom> networkHistoryOfClassrooms = networkHistoryClassroomRepo.findAll();
 
         for (Short classroomNumber : computerService.getNumberOfClassrooms()) {
-            if (networkHistoryOfClassrooms.stream()
-                    .noneMatch(historyOfClassroom -> historyOfClassroom.getNumberOfClassroom() == classroomNumber)){
-                networkHistoryOfClassrooms.add(new NetworkHistoryOfClassroom(classroomNumber));
-            }
 
             float sumDownload = (float) computerService.getIpV4OfNumberOfClassroom(classroomNumber)
                     .stream()
@@ -41,13 +40,7 @@ public class ChartService {
                     .mapToDouble(x -> computerVariableDataRepo.findByIpv4(x).getNetworkUpLoad())
                     .sum();
 
-            NetworkHistoryOfClassroom networkHistoryOfClassroom = networkHistoryOfClassrooms
-                    .stream()
-                    .filter(y -> y.getNumberOfClassroom() == classroomNumber)
-                    .findFirst()
-                    .get();
-
-            networkHistoryOfClassroom.setDate(new Date());
+            NetworkHistoryOfClassroom networkHistoryOfClassroom = new NetworkHistoryOfClassroom(classroomNumber, new Date());
 
             networkHistoryOfClassroom.setAverageDownload(sumDownload);
             networkHistoryOfClassroom.setAverageUpload(sumUpload);
@@ -61,9 +54,9 @@ public class ChartService {
         return networkHistoryClassroomRepo.findAll();
     }
 
-    public List<NetworkHistoryOfClassroom> getHistoryLast20Minutes() {
-       return networkHistoryClassroomRepo
-               .findByDateGreaterThan(
-                       new Date(System.currentTimeMillis() - 1200 * 1000));
+    public Map<Short, List<NetworkHistoryOfClassroom>> getHistoryLast20Minutes() {
+       return networkHistoryClassroomRepo.findByDateGreaterThan(new Date(System.currentTimeMillis() - 1200 * 1000))
+               .stream()
+               .collect(Collectors.groupingBy(NetworkHistoryOfClassroom :: getNumberOfClassroom));
     }
 }

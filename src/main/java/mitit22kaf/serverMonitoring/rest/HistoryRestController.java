@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/history")
@@ -33,10 +34,8 @@ public class HistoryRestController {
     @GetMapping("/last-hour")
     public ResponseEntity<?> getHistoryLastHour() {
         try {
-            System.out.println("start");
-            List<NetworkHistoryOfClassroom> networkHistoryOfClassroomList = chartService.getHistoryLast20Minutes();
-            System.out.println("end");
-            return ResponseEntity.ok(networkHistoryOfClassroomList);
+            Map<Short, List<NetworkHistoryOfClassroom>> historyLast20Minutes = chartService.getHistoryLast20Minutes();
+            return ResponseEntity.ok(historyLast20Minutes);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
