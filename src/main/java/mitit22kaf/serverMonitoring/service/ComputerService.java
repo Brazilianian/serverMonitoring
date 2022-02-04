@@ -1,11 +1,10 @@
 package mitit22kaf.serverMonitoring.service;
 
-import mitit22kaf.serverMonitoring.entities.AverageNetworkOfClassroom;
 import mitit22kaf.serverMonitoring.entities.ComputerData;
 import mitit22kaf.serverMonitoring.entities.ComputerVariableData;
-import mitit22kaf.serverMonitoring.entities.NetworkHistoryOfClassroom;
 import mitit22kaf.serverMonitoring.pojo.classroom.ClassroomResponse;
 import mitit22kaf.serverMonitoring.pojo.classroom.ComputerResponse;
+import mitit22kaf.serverMonitoring.pojo.classroom.VariableComputerResponse;
 import mitit22kaf.serverMonitoring.pojo.classrooms.MainPageClassroomResponse;
 import mitit22kaf.serverMonitoring.pojo.classrooms.MainPageComputerResponse;
 import mitit22kaf.serverMonitoring.pojo.components.Cpu;
@@ -13,12 +12,14 @@ import mitit22kaf.serverMonitoring.pojo.components.Network;
 import mitit22kaf.serverMonitoring.pojo.components.Ram;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
 import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
-import mitit22kaf.serverMonitoring.pojo.classrooms.VariableComputerResponse;
 import mitit22kaf.serverMonitoring.repos.NetworkHistoryClassroomRepo;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,7 +1,6 @@
 package mitit22kaf.serverMonitoring.server;
 
 import com.google.gson.Gson;
-import lombok.SneakyThrows;
 import mitit22kaf.serverMonitoring.entities.ComputerData;
 import mitit22kaf.serverMonitoring.entities.ComputerVariableData;
 import mitit22kaf.serverMonitoring.repos.ComputerDataRepo;
@@ -82,6 +81,7 @@ public class ServerMonitor implements CommandLineRunner {
         }
 
         public void run() {
+
             Gson gson = new Gson();
 
             BufferedReader in = null;
@@ -110,6 +110,7 @@ public class ServerMonitor implements CommandLineRunner {
 
                 try {
                     while ((line = in.readLine()) != null) {
+
                         ComputerVariableData computerVariableData = gson.fromJson(in.readLine(),
                                 ComputerVariableData.class);
 

@@ -2,7 +2,7 @@ package mitit22kaf.serverMonitoring.rest;
 
 import mitit22kaf.serverMonitoring.pojo.ErrorResponse;
 import mitit22kaf.serverMonitoring.pojo.classroom.ClassroomResponse;
-import mitit22kaf.serverMonitoring.pojo.classrooms.VariableComputerResponse;
+import mitit22kaf.serverMonitoring.pojo.classroom.VariableComputerResponse;
 import mitit22kaf.serverMonitoring.service.ComputerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

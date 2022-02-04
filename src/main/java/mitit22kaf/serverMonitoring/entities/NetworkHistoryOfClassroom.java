@@ -3,26 +3,27 @@ package mitit22kaf.serverMonitoring.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class NetworkHistoryOfClassroom {
+
     @Id
+    private Date date;
+
     private short numberOfClassroom;
 
-    @Fetch(value = FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AverageNetworkOfClassroom> averageDownload = new ArrayList<>();
+    private float averageDownload;
 
-    @Fetch(value = FetchMode.SUBSELECT)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AverageNetworkOfClassroom> averageUpload = new ArrayList<>();
+    private float averageUpload;
+
+    public NetworkHistoryOfClassroom(short numberOfClassroom) {
+        this.numberOfClassroom = numberOfClassroom;
+    }
 }

@@ -16,9 +16,6 @@ public class ChartJob {
     @Scheduled(fixedRate = 5000L)
     public void getClassrooms(){
         long time = System.currentTimeMillis();
-
-        System.out.println(chartService.saveNetworkHistoryOfClassroom());
-
-        System.out.println(System.currentTimeMillis() - time);
+        chartService.saveNetworkHistoryOfClassroom();
     }
 }
