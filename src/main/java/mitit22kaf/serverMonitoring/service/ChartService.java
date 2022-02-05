@@ -5,10 +5,7 @@ import mitit22kaf.serverMonitoring.repos.ComputerVariableDataRepo;
 import mitit22kaf.serverMonitoring.repos.NetworkHistoryClassroomRepo;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,6 +14,9 @@ public class ChartService {
     private final ComputerService computerService;
     private final ComputerVariableDataRepo computerVariableDataRepo;
     private final NetworkHistoryClassroomRepo networkHistoryClassroomRepo;
+
+    //період часу для графіку. 1200с. = 20хв. Поверне останні 20 хв.
+    public static long period = 1200;
 
     public ChartService(ComputerService computerService, ComputerVariableDataRepo computerVariableDataRepo,
                         NetworkHistoryClassroomRepo networkHistoryClassroomRepo) {
@@ -55,8 +55,9 @@ public class ChartService {
     }
 
     public Map<Short, List<NetworkHistoryOfClassroom>> getHistoryLast20Minutes() {
-       return networkHistoryClassroomRepo.findByDateGreaterThan(new Date(System.currentTimeMillis() - 1200 * 1000))
+       return networkHistoryClassroomRepo.findByDateGreaterThan(new Date(System.currentTimeMillis() - period * 1000))
                .stream()
+               .sorted(Comparator.comparing(NetworkHistoryOfClassroom::getDate))
                .collect(Collectors.groupingBy(NetworkHistoryOfClassroom :: getNumberOfClassroom));
     }
 }

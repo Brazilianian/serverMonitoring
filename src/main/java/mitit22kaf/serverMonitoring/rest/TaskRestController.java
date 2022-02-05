@@ -50,7 +50,7 @@ public class TaskRestController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<?> getTask(@RequestBody short classroomNumber) {
         try {
             List<Task> tasks = taskService.getTasks(classroomNumber);
