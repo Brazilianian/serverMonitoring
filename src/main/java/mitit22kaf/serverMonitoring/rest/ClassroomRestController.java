@@ -6,10 +6,7 @@ import mitit22kaf.serverMonitoring.pojo.classroom.VariableComputerResponse;
 import mitit22kaf.serverMonitoring.service.ComputerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
 import java.util.List;
@@ -55,5 +52,33 @@ public class ClassroomRestController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ErrorResponse("Fatal error"));
         }
+    }
+
+    @PutMapping("/{oldClassroomNumber}")
+    public ResponseEntity<?> editClassroomNumber(@PathVariable short oldClassroomNumber,
+                                                 @RequestBody short newClassroomNumber) {
+        try {
+            computerService.editClassroomNumber(oldClassroomNumber, newClassroomNumber);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.ok(newClassroomNumber);
+    }
+
+    @PutMapping("/{classroomNumber}/pc/{oldPcNumber}")
+    public ResponseEntity<?> editComputerNumber(@PathVariable short classroomNumber,
+                                                @PathVariable byte oldPcNumber,
+                                                @RequestBody byte newPcNumber) {
+        try {
+            computerService.editPcNumber(classroomNumber, oldPcNumber, newPcNumber);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(newPcNumber);
     }
 }
